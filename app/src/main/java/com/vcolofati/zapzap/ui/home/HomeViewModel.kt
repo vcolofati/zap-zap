@@ -13,8 +13,7 @@ class HomeViewModel: ViewModel() {
         repository.currentUser()
     }
 
-    fun logout(view: View){
+    fun logout(){
         repository.logout()
-        view.context.startLoginActivity()
     }
 }
