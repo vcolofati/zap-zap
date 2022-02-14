@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems
@@ -12,6 +13,7 @@ import com.vcolofati.zapzap.R
 import com.vcolofati.zapzap.databinding.ActivityHomeBinding
 import com.vcolofati.zapzap.ui.home.fragments.contact.ContactsFragment
 import com.vcolofati.zapzap.ui.home.fragments.conversation.ConversationFragment
+import com.vcolofati.zapzap.utils.startConfigurationActivity
 import com.vcolofati.zapzap.utils.startLoginActivity
 
 
@@ -25,7 +27,8 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
         binding.viewmodel = viewModel
-        val toolbar = binding.toolbar
+        // Por algum motivo se não fizer o cast explícito da erro na compilação ( mesmo a IDE falando que não precisa de cast)
+        val toolbar = binding.toolbar as Toolbar
         toolbar.title = "ZapZap"
         setSupportActionBar(toolbar)
 
@@ -49,7 +52,7 @@ class HomeActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.menu_search -> {}
-            R.id.menu_configuration -> {}
+            R.id.menu_settings -> startConfigurationActivity()
             R.id.menu_exit -> {
                 viewModel.logout()
                 startLoginActivity()

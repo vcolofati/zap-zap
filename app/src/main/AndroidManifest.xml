@@ -10,6 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ZapZap">
         <activity
+            android:name=".ui.configuration.SettingsActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.home.HomeActivity"/>
+        <activity
             android:name=".ui.auth.SignupActivity"
             android:exported="false" />
         <activity

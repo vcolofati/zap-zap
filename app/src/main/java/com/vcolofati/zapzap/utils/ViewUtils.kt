@@ -5,6 +5,7 @@ import android.content.Intent
 import android.widget.Toast.LENGTH_SHORT
 import android.widget.Toast.makeText
 import com.vcolofati.zapzap.ui.auth.LoginActivity
+import com.vcolofati.zapzap.ui.configuration.SettingsActivity
 import com.vcolofati.zapzap.ui.home.HomeActivity
 
 fun Context.toast(message: String) {
@@ -20,5 +21,10 @@ fun Context.startHomeActivity() =
 fun Context.startLoginActivity() =
     Intent(this, LoginActivity::class.java).also {
         it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(it)
+    }
+
+fun Context.startConfigurationActivity() =
+    Intent(this, SettingsActivity::class.java).also {
         startActivity(it)
     }
