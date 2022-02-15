@@ -1,17 +1,17 @@
 package com.vcolofati.zapzap.data.repositories
 
-import com.vcolofati.zapzap.data.firebase.FirebaseSource
+import com.vcolofati.zapzap.data.firebase.FirebaseAuthSource
 
 
 class AuthRepository {
 
-    private val firebase: FirebaseSource = FirebaseSource()
+    private val firebaseAuth: FirebaseAuthSource = FirebaseAuthSource()
 
-    fun login(email: String, password: String) = firebase.login(email, password)
+    fun login(email: String, password: String) = firebaseAuth.login(email, password)
 
-    fun register(email: String, password: String) = firebase.register(email, password)
+    fun register(email: String, password: String) = firebaseAuth.register(email, password)
 
-    fun currentUser() = firebase.currentUser()
+    fun currentUser() = firebaseAuth.currentUser()
 
-    fun logout() = firebase.logout()
+    fun logout() = firebaseAuth.logout()
 }

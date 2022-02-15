@@ -1,3 +1,6 @@
 package com.vcolofati.zapzap.data.models
 
-class User ( val name: String = "", val email: String = "", val password: String = "")
+import com.google.firebase.database.Exclude
+
+class User (@get:Exclude var uid: String? = null, var name: String? = null, var email: String? = null,
+            @get:Exclude var password: String? = null)

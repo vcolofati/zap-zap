@@ -5,7 +5,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import io.reactivex.Completable
 
-class FirebaseSource {
+class FirebaseAuthSource {
 
 
     companion object {

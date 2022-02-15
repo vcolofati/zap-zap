@@ -9,22 +9,22 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.vcolofati.zapzap.data.models.User
 import com.vcolofati.zapzap.data.repositories.AuthRepository
+import com.vcolofati.zapzap.data.repositories.DatabaseRepository
 import com.vcolofati.zapzap.utils.Resource
 import com.vcolofati.zapzap.utils.Status
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import java.lang.Exception
 
 class AuthViewModel: ViewModel() {
 
-    private val repository: AuthRepository = AuthRepository()
+    private val authRepository: AuthRepository = AuthRepository()
+    private val databaseRepository: DatabaseRepository = DatabaseRepository()
 
     // variaveis da ui
-    var name: String? = null
-    var email: String? = null
-    var password: String? = null
+    val userData = User()
 
     private val response: MutableLiveData<Resource<Status>> = MutableLiveData()
 
@@ -32,13 +32,13 @@ class AuthViewModel: ViewModel() {
     private val disposables = CompositeDisposable()
 
     val user by lazy {
-        repository.currentUser()
+        authRepository.currentUser()
     }
 
     fun login() {
 
         // validando email e senha
-        if (email.isNullOrEmpty() || password.isNullOrEmpty()) {
+        if (userData.email.isNullOrEmpty() || userData.password.isNullOrEmpty()) {
             response.postValue(Resource.error("Preencha todos os campos"))
             return
         }
@@ -46,7 +46,7 @@ class AuthViewModel: ViewModel() {
         // autenticação começou
         response.postValue(Resource.loading())
 
-        val disposable = repository.login(email!!, password!!)
+        val disposable = authRepository.login(userData.email!!, userData.password!!)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -65,16 +65,19 @@ class AuthViewModel: ViewModel() {
     }
 
     fun signup() {
-        if (email.isNullOrEmpty() || password.isNullOrEmpty() || name.isNullOrEmpty()) {
+        if (userData.email.isNullOrEmpty() || userData.password.isNullOrEmpty() || userData.name.isNullOrEmpty()) {
             response.postValue(Resource.error("Preencha todos os campos"))
             return
         }
         response.postValue(Resource.loading())
-        val disposable = repository.register(email!!, password!!)
+        val disposable = authRepository.register(userData.email!!, userData.password!!)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 response.postValue(Resource.sucess())
+                userData.uid = user?.uid
+                databaseRepository.create(userData)
+
             }, {
                 val message = when(it) {
                     is FirebaseAuthWeakPasswordException -> "Digite uma senha mais forte"
