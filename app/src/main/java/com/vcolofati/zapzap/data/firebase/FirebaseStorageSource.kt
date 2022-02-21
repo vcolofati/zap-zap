@@ -1,10 +1,11 @@
 package com.vcolofati.zapzap.data.firebase
 
 import android.graphics.Bitmap
-import android.util.Log
+import android.net.Uri
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
+import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
 
 class FirebaseStorageSource {
@@ -20,20 +21,15 @@ class FirebaseStorageSource {
 
     private val storageRef by lazy { firebaseStorage?.reference }
 
-    fun save(image: Bitmap, uid: String) {
+    suspend fun save(image: Bitmap, uid: String): Uri? {
         val baos = ByteArrayOutputStream()
-        image.compress(Bitmap.CompressFormat.JPEG, 70, baos)
+        image.compress(Bitmap.CompressFormat.PNG, 70, baos)
         val imageData = baos.toByteArray()
         val imageRef = storageRef?.child("imagens")
             ?.child("perfil")
-            ?.child("${uid}.jpeg")
+            ?.child("${uid}.png")
 
-        val uploadTask = imageRef?.putBytes(imageData)
-        uploadTask?.addOnFailureListener {
-            Log.i("storage", "Falha ao fazer upload da imagem")
-        }?.addOnSuccessListener {
-            Log.i("storage", "Sucesso ao fazer upload da imagem")
-
-        }
+        imageRef?.putBytes(imageData)?.await()
+        return imageRef?.downloadUrl?.await()
     }
 }

@@ -2,6 +2,7 @@ package com.vcolofati.zapzap.ui.configuration
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
@@ -9,8 +10,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
+import com.bumptech.glide.Glide
 import com.vcolofati.zapzap.R
 import com.vcolofati.zapzap.databinding.ActivitySettingsBinding
+import com.vcolofati.zapzap.utils.Status
+
 import com.vcolofati.zapzap.utils.toast
 
 private const val REQUEST_IMAGE_CAPTURE = 1
@@ -21,16 +25,51 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySettingsBinding
 
     private val viewModel: SettingsViewModel by viewModels()
+    private var actualUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_settings)
         binding.ui = this
+        binding.viewmodel = this.viewModel
+        // Configure Toolbar
         val toolbar = binding.toolbar as Toolbar
         toolbar.title = "Configurações"
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        this.setObservers()
+        this.viewModel.fetchUri()
+    }
+
+    private fun setObservers() {
+        this.viewModel.getUri().observe(this) { resource ->
+            when (resource.status) {
+                Status.LOADING -> binding.progressLoadImage.visibility = View.VISIBLE
+                Status.SUCESS -> {
+                    loadProfileImage(resource.data)
+                    actualUri = resource.data
+                    binding.progressLoadImage.visibility = View.GONE
+                }
+                Status.ERROR -> {
+                    binding.progressLoadImage.visibility = View.GONE
+                }
+            }
+        }
+    }
+
+    private fun loadProfileImage(uri: Uri?) {
+        if (uri != null) {
+            Glide.with(this)
+                .load(uri)
+                .thumbnail(Glide.with(this)
+                    .load(actualUri)
+                    .fitCenter()
+                )
+                .fitCenter()
+                .into(binding.profileImage)
+        } else {
+            binding.profileImage.setImageResource(R.drawable.default_image)
+        }
     }
 
     fun dispatchTakePictureIntent(view: View) {
@@ -57,12 +96,11 @@ class SettingsActivity : AppCompatActivity() {
             when (requestCode) {
                 REQUEST_IMAGE_CAPTURE -> {
                     val takenImage = data?.extras?.get("data") as Bitmap
-                    binding.profileImage.setImageBitmap(takenImage)
+                    viewModel.save(takenImage)
                 }
                 REQUEST_GALLERY -> {
                     val imagePath = data?.data
                     val image = MediaStore.Images.Media.getBitmap(this.contentResolver, imagePath)
-                    binding.profileImage.setImageBitmap(image)
                     viewModel.save(image)
                 }
             }

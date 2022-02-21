@@ -10,4 +10,9 @@
     <string name="menu_search">Search</string>
     <string name="menu_settings">Configurações</string>
     <string name="exit">Sair</string>
+    <string name="settings_info">Esse não é seu nome de usuário nem sua senha. Esse nome ficará visível para seus contatos</string>
+    <string name="button_camera">Botão Câmera</string>
+    <string name="button_gallery">Botão Galeria</string>
+    <string name="app_logo">Logo da aplicação</string>
+    <string name="logo_signup">Logo tela de cadastro</string>
 </resources>

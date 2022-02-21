@@ -1,8 +1,8 @@
-package com.vcolofati.zapzap.data.firebase;
+package com.vcolofati.zapzap.data.firebase
 
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase;
+import com.google.firebase.ktx.Firebase
 import com.vcolofati.zapzap.data.models.User
 
 class FirebaseDatabaseSource {

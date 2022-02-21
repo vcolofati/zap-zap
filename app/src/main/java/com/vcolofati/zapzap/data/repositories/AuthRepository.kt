@@ -1,5 +1,6 @@
 package com.vcolofati.zapzap.data.repositories
 
+import android.net.Uri
 import com.vcolofati.zapzap.data.firebase.FirebaseAuthSource
 
 
@@ -14,4 +15,6 @@ class AuthRepository {
     fun currentUser() = firebaseAuth.currentUser()
 
     fun logout() = firebaseAuth.logout()
+
+    suspend fun updateUserProfile(uri: Uri?) = firebaseAuth.updateUserProfile(uri)
 }
