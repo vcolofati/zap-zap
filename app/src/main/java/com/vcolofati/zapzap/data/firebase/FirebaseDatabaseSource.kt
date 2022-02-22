@@ -22,4 +22,8 @@ class FirebaseDatabaseSource {
     fun create(user: User) {
         user.uid?.let { fireBaseRef?.child(it)?.setValue(user) }
     }
+
+    fun update(user: User) {
+        user.uid?.let { fireBaseRef?.child(it)?.updateChildren(user.convertClassToMap()) }
+    }
 }

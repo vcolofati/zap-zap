@@ -8,4 +8,5 @@ class DatabaseRepository {
     private val firebaseDatabase: FirebaseDatabaseSource = FirebaseDatabaseSource()
 
     fun create(user: User) = firebaseDatabase.create(user)
+    fun update(user: User) = firebaseDatabase.update(user)
 }

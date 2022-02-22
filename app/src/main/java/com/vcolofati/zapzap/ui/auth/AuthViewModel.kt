@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -17,6 +18,7 @@ import com.vcolofati.zapzap.utils.Status
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.launch
 
 class AuthViewModel: ViewModel() {
 
@@ -77,7 +79,7 @@ class AuthViewModel: ViewModel() {
                 response.postValue(Resource.sucess())
                 userData.uid = user?.uid
                 databaseRepository.create(userData)
-
+                authRepository.updateUserProfile(userData.name!!)
             }, {
                 val message = when(it) {
                     is FirebaseAuthWeakPasswordException -> "Digite uma senha mais forte"

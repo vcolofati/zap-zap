@@ -17,4 +17,6 @@ class AuthRepository {
     fun logout() = firebaseAuth.logout()
 
     suspend fun updateUserProfile(uri: Uri?) = firebaseAuth.updateUserProfile(uri)
+
+    fun updateUserProfile(name: String) = firebaseAuth.updateUserProfile(name)
 }

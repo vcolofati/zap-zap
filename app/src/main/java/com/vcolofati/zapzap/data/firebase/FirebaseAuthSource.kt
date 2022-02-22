@@ -51,6 +51,13 @@ class FirebaseAuthSource {
          currentUser()?.updateProfile(userChangeReq)?.await()
     }
 
+    fun updateUserProfile(name:String) {
+        val userChangeReq = UserProfileChangeRequest.Builder()
+            .setDisplayName(name)
+            .build()
+        currentUser()?.updateProfile(userChangeReq)
+    }
+
     fun logout() = firebaseAuth?.signOut()
 
     fun currentUser() = firebaseAuth?.currentUser
