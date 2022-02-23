@@ -1,5 +1,6 @@
 package com.vcolofati.zapzap.data.repositories
 
+import androidx.lifecycle.MutableLiveData
 import com.vcolofati.zapzap.data.firebase.FirebaseDatabaseSource
 import com.vcolofati.zapzap.data.models.User
 
@@ -9,4 +10,5 @@ class DatabaseRepository {
 
     fun create(user: User) = firebaseDatabase.create(user)
     fun update(user: User) = firebaseDatabase.update(user)
+    fun getUsers(mtld: MutableLiveData<List<User>>) = firebaseDatabase.getAll(mtld)
 }

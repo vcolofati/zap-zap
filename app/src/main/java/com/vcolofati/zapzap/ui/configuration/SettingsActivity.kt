@@ -17,9 +17,6 @@ import com.vcolofati.zapzap.utils.Status
 
 import com.vcolofati.zapzap.utils.toast
 
-private const val REQUEST_IMAGE_CAPTURE = 1
-private const val REQUEST_GALLERY = 2
-
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySettingsBinding
