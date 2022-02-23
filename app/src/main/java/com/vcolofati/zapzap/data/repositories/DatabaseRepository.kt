@@ -10,5 +10,5 @@ class DatabaseRepository {
 
     fun create(user: User) = firebaseDatabase.create(user)
     fun update(user: User) = firebaseDatabase.update(user)
-    fun getUsers(mtld: MutableLiveData<List<User>>) = firebaseDatabase.getAll(mtld)
+    fun getUsers(mtld: MutableLiveData<List<User>>, email: String) = firebaseDatabase.getAll(mtld, email)
 }

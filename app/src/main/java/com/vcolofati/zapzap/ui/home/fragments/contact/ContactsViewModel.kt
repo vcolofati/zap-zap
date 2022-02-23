@@ -4,16 +4,23 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.vcolofati.zapzap.data.models.User
+import com.vcolofati.zapzap.data.repositories.AuthRepository
 import com.vcolofati.zapzap.data.repositories.DatabaseRepository
 
 class ContactsViewModel : ViewModel() {
 
+    private val authRepository = AuthRepository()
     private val databaseRepository = DatabaseRepository()
+
+    val user by lazy {
+        authRepository.currentUser()
+    }
+
 
     private val _list = MutableLiveData<List<User>>()
     val list: LiveData<List<User>> = _list
 
     fun fetchUserList() {
-        this.databaseRepository.getUsers(_list)
+        user?.email?.let { this.databaseRepository.getUsers(_list, it) }
     }
 }

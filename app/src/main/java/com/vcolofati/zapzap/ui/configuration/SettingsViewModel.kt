@@ -39,6 +39,7 @@ class SettingsViewModel : ViewModel() {
                 val uri = storageRepository.saveImageToStorage(image, user?.uid!!)
                 authRepository.updateUserProfile(uri)
                 withContext(Dispatchers.Main) {
+                    userData.imageUrl = uri.toString()
                     databaseRepository.update(userData)
                     fetchUri()
                 }

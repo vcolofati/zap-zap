@@ -32,11 +32,13 @@ class FirebaseDatabaseSource {
         user.uid?.let { fireBaseRef?.child(it)?.updateChildren(user.convertClassToMap()) }
     }
 
-    fun getAll(mtld: MutableLiveData<List<User>>) {
+    fun getAll(mtld: MutableLiveData<List<User>>, email: String) {
         fireBaseRef?.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val items = snapshot.children.map { dataSnapshot ->
                     dataSnapshot.getValue<User>()!!
+                }.filter {
+                    it.email != email
                 }
                 mtld.postValue(items)
             }
