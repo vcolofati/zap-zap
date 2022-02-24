@@ -16,7 +16,9 @@ import com.vcolofati.zapzap.databinding.ActivitySettingsBinding
 import com.vcolofati.zapzap.utils.Status
 
 import com.vcolofati.zapzap.utils.toast
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySettingsBinding
@@ -29,8 +31,7 @@ class SettingsActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_settings)
         binding.ui = this
         binding.viewmodel = this.viewModel
-        // Configure Toolbar
-        val toolbar = binding.toolbar as Toolbar
+        val toolbar = binding.toolbar.root
         toolbar.title = "Configurações"
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

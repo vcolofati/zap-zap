@@ -2,7 +2,6 @@ package com.vcolofati.zapzap.ui.configuration
 
 import android.graphics.Bitmap
 import android.net.Uri
-import android.opengl.GLES30
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,16 +12,18 @@ import com.vcolofati.zapzap.data.repositories.AuthRepository
 import com.vcolofati.zapzap.data.repositories.DatabaseRepository
 import com.vcolofati.zapzap.data.repositories.StorageRepository
 import com.vcolofati.zapzap.utils.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-
-class SettingsViewModel : ViewModel() {
-
-    private val authRepository = AuthRepository()
-    private val storageRepository = StorageRepository()
-    private val databaseRepository = DatabaseRepository()
+@HiltViewModel
+class SettingsViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
+    private val storageRepository: StorageRepository,
+    private val databaseRepository: DatabaseRepository
+) : ViewModel() {
 
     private val user by lazy {
         authRepository.currentUser()

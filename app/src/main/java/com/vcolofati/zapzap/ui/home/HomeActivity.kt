@@ -15,8 +15,9 @@ import com.vcolofati.zapzap.ui.home.fragments.contact.ContactsFragment
 import com.vcolofati.zapzap.ui.home.fragments.conversation.ConversationFragment
 import com.vcolofati.zapzap.utils.startConfigurationActivity
 import com.vcolofati.zapzap.utils.startLoginActivity
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
@@ -27,8 +28,7 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
         binding.viewmodel = viewModel
-        // Por algum motivo se não fizer o cast explícito da erro na compilação ( mesmo a IDE falando que não precisa de cast)
-        val toolbar = binding.toolbar as Toolbar
+        val toolbar = binding.toolbar.root
         toolbar.title = "ZapZap"
         setSupportActionBar(toolbar)
 

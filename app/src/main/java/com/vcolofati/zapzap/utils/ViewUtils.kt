@@ -7,6 +7,7 @@ import android.widget.Toast.makeText
 import com.vcolofati.zapzap.ui.auth.LoginActivity
 import com.vcolofati.zapzap.ui.configuration.SettingsActivity
 import com.vcolofati.zapzap.ui.home.HomeActivity
+import com.vcolofati.zapzap.ui.home.chat.ChatActivity
 
 fun Context.toast(message: String) {
     makeText(this, message, LENGTH_SHORT).show()
@@ -26,5 +27,10 @@ fun Context.startLoginActivity() =
 
 fun Context.startConfigurationActivity() =
     Intent(this, SettingsActivity::class.java).also {
+        startActivity(it)
+    }
+
+fun Context.startChatActivity() =
+    Intent(this, ChatActivity::class.java).also {
         startActivity(it)
     }

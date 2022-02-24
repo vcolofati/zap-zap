@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -33,6 +35,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -56,8 +61,12 @@ dependencies {
     implementation 'com.ogaclejapan.smarttablayout:utils-v4:2.0.0@aar'
     // https://github.com/hdodenhof/CircleImageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-    //https://github.com/Dhaval2404/ImagePicker
-
+    // https://github.com/Dhaval2404/ImagePicker
+    // Hilt
+    implementation 'com.google.dagger:hilt-android:2.41'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
+    kapt 'com.google.dagger:hilt-compiler:2.41'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'

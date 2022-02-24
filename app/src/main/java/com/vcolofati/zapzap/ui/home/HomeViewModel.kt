@@ -2,16 +2,17 @@ package com.vcolofati.zapzap.ui.home
 
 import androidx.lifecycle.ViewModel
 import com.vcolofati.zapzap.data.repositories.AuthRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class HomeViewModel: ViewModel() {
-
-    private val repository: AuthRepository = AuthRepository()
+@HiltViewModel
+class HomeViewModel @Inject constructor(private val authRepository: AuthRepository): ViewModel() {
 
     val user by lazy {
-        repository.currentUser()
+        this.authRepository.currentUser()
     }
 
     fun logout(){
-        repository.logout()
+        this.authRepository.logout()
     }
 }

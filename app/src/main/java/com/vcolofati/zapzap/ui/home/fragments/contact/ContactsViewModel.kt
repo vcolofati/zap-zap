@@ -6,16 +6,18 @@ import androidx.lifecycle.ViewModel
 import com.vcolofati.zapzap.data.models.User
 import com.vcolofati.zapzap.data.repositories.AuthRepository
 import com.vcolofati.zapzap.data.repositories.DatabaseRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ContactsViewModel : ViewModel() {
-
-    private val authRepository = AuthRepository()
-    private val databaseRepository = DatabaseRepository()
+@HiltViewModel
+class ContactsViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
+    private val databaseRepository: DatabaseRepository
+    ) : ViewModel() {
 
     val user by lazy {
         authRepository.currentUser()
     }
-
 
     private val _list = MutableLiveData<List<User>>()
     val list: LiveData<List<User>> = _list

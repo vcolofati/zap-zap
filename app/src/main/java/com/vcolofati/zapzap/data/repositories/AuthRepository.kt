@@ -2,11 +2,10 @@ package com.vcolofati.zapzap.data.repositories
 
 import android.net.Uri
 import com.vcolofati.zapzap.data.firebase.FirebaseAuthSource
+import javax.inject.Inject
 
 
-class AuthRepository {
-
-    private val firebaseAuth: FirebaseAuthSource = FirebaseAuthSource()
+class AuthRepository @Inject constructor(private val firebaseAuth: FirebaseAuthSource) {
 
     fun login(email: String, password: String) = firebaseAuth.login(email, password)
 

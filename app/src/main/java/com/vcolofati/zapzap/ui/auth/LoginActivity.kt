@@ -10,7 +10,9 @@ import com.vcolofati.zapzap.databinding.ActivityLoginBinding
 import com.vcolofati.zapzap.utils.Status
 import com.vcolofati.zapzap.utils.startHomeActivity
 import com.vcolofati.zapzap.utils.toast
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     private val viewModel: AuthViewModel by viewModels()

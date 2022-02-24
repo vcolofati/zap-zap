@@ -2,11 +2,9 @@ package com.vcolofati.zapzap.ui.home.fragments.contact.adapter
 
 import android.net.Uri
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.vcolofati.zapzap.R
 import com.vcolofati.zapzap.data.models.User

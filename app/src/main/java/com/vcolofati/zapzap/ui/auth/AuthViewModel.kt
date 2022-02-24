@@ -5,7 +5,6 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -15,15 +14,17 @@ import com.vcolofati.zapzap.data.repositories.AuthRepository
 import com.vcolofati.zapzap.data.repositories.DatabaseRepository
 import com.vcolofati.zapzap.utils.Resource
 import com.vcolofati.zapzap.utils.Status
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AuthViewModel: ViewModel() {
-
-    private val authRepository: AuthRepository = AuthRepository()
-    private val databaseRepository: DatabaseRepository = DatabaseRepository()
+@HiltViewModel
+class AuthViewModel @Inject constructor(
+        private val authRepository: AuthRepository,
+        private val databaseRepository: DatabaseRepository
+        ): ViewModel() {
 
     // variaveis da ui
     val userData = User()
