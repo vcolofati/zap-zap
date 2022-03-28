@@ -9,5 +9,7 @@ class DatabaseRepository @Inject constructor(private val firebaseDatabase: Fireb
 
     fun create(user: User) = firebaseDatabase.create(user)
     fun update(user: User) = firebaseDatabase.update(user)
-    fun getUsers(mtld: MutableLiveData<List<User>>, email: String) = firebaseDatabase.getAll(mtld, email)
+    fun getUsers(userLiveData: MutableLiveData<List<User>>, email: String) =
+            firebaseDatabase.getAll(userLiveData, email)
+    fun detachUserListener() = firebaseDatabase.detachUserListener()
 }

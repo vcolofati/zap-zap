@@ -40,7 +40,7 @@ class ContactsFragment : Fragment() {
         this.viewModel.fetchUserList()
         binding.contactsRecycler.addOnItemTouchListener(object : RecyclerItemClickListener(activity,
         binding.contactsRecycler,
-            object : RecyclerItemClickListener.OnItemClickListener {
+            object : OnItemClickListener {
                 override fun onItemClick(view: View?, position: Int) {
                     activity?.startChatActivity()
                 }
@@ -54,7 +54,6 @@ class ContactsFragment : Fragment() {
                 }
 
             }) {
-
         })
         return view
     }
@@ -63,5 +62,10 @@ class ContactsFragment : Fragment() {
         this.viewModel.list.observe(viewLifecycleOwner) { list ->
             adapter.bindList(list)
         }
+    }
+
+    override fun onDestroyView() {
+        this.viewModel.detachUserListener()
+        super.onDestroyView()
     }
 }

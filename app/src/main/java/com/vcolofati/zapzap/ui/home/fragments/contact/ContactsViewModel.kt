@@ -25,4 +25,8 @@ class ContactsViewModel @Inject constructor(
     fun fetchUserList() {
         user?.email?.let { this.databaseRepository.getUsers(_list, it) }
     }
+
+    fun detachUserListener() {
+        this.databaseRepository.detachUserListener()
+    }
 }
