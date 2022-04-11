@@ -1,41 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:backgroundTint="@color/white"
     tools:context=".ui.home.chat.ChatActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <data>
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/Theme.ZapZap.AppBarOverlay">
+        android:layout_height="match_parent"
+        android:backgroundTint="@color/white">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/chatToolbar"
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/purple_500"
-            android:theme="@style/Toolbar">
+            android:layout_height="wrap_content"
+            android:theme="@style/Theme.ZapZap.AppBarOverlay">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/circleImageToolbar"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/default_image" />
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/chatToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/purple_500"
+                android:theme="@style/Toolbar">
 
-            <TextView
-                android:id="@+id/textToolbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                tools:text="Fulano de tal" />
-        </androidx.appcompat.widget.Toolbar>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/circleImageToolbar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/default_image" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+                <TextView
+                    android:id="@+id/userNameToolbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="Fulano de tal" />
+            </androidx.appcompat.widget.Toolbar>
 
-    <include layout="@layout/content_chat" />
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <include layout="@layout/content_chat" android:id="@+id/content" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

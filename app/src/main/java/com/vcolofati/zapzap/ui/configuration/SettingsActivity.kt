@@ -8,13 +8,11 @@ import android.provider.MediaStore
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.vcolofati.zapzap.R
 import com.vcolofati.zapzap.databinding.ActivitySettingsBinding
 import com.vcolofati.zapzap.utils.Status
-
 import com.vcolofati.zapzap.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 

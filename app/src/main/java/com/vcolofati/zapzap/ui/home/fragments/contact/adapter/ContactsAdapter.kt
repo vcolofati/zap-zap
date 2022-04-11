@@ -42,5 +42,9 @@ class ContactsAdapter(private val glide: RequestManager) : RecyclerView.Adapter<
         notifyDataSetChanged()
     }
 
+    fun getSelectedUser(position: Int): User {
+        return this.list[position]
+    }
+
     class ViewHolder(val binding: ContactsRecyclerItemBinding) : RecyclerView.ViewHolder(binding.root)
 }

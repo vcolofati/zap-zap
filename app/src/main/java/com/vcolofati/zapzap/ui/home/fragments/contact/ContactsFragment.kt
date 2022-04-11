@@ -42,7 +42,7 @@ class ContactsFragment : Fragment() {
         binding.contactsRecycler,
             object : OnItemClickListener {
                 override fun onItemClick(view: View?, position: Int) {
-                    activity?.startChatActivity()
+                    activity?.startChatActivity(adapter.getSelectedUser(position))
                 }
 
                 override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {

@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/bg_baloon.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/chat_message_background.xml" value="0.1945" />
         <entry key="app/src/main/res/drawable/ic_baseline_edit.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/ic_baseline_more_vert.xml" value="0.187" />
@@ -18,6 +19,9 @@
         <entry key="app/src/main/res/layout/content_chat.xml" value="0.25" />
         <entry key="app/src/main/res/layout/conversation_fragment.xml" value="0.12" />
         <entry key="app/src/main/res/layout/fragment_second.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/receiver_recycler_item.xml" value="0.17864583333333334" />
+        <entry key="app/src/main/res/layout/recipient_recycler_item.xml" value="0.17864583333333334" />
+        <entry key="app/src/main/res/layout/sender_recycler_item.xml" value="0.18" />
         <entry key="app/src/main/res/layout/toolbar.xml" value="0.16228070175438597" />
         <entry key="app/src/main/res/menu/menu.xml" value="0.1" />
       </map>

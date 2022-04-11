@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.vcolofati.zapzap.R
 
 class ConversationFragment : Fragment() {
@@ -14,7 +14,7 @@ class ConversationFragment : Fragment() {
         fun newInstance() = ConversationFragment()
     }
 
-    private lateinit var viewModel: ConversationViewModel
+    private val viewModel: ConversationViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,11 +22,4 @@ class ConversationFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.conversation_fragment, container, false)
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ConversationViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-
 }

@@ -20,7 +20,7 @@ class ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideFirebaseUserDatabase() = Firebase.database.getReference("users")
+    fun provideFirebaseDatabase() = Firebase.database
 
     @Provides
     @Singleton

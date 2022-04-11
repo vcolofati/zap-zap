@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast.LENGTH_SHORT
 import android.widget.Toast.makeText
+import com.vcolofati.zapzap.data.models.User
 import com.vcolofati.zapzap.ui.auth.LoginActivity
+import com.vcolofati.zapzap.ui.configuration.CONTACT_KEY
 import com.vcolofati.zapzap.ui.configuration.SettingsActivity
 import com.vcolofati.zapzap.ui.home.HomeActivity
 import com.vcolofati.zapzap.ui.home.chat.ChatActivity
@@ -30,7 +32,8 @@ fun Context.startConfigurationActivity() =
         startActivity(it)
     }
 
-fun Context.startChatActivity() =
+fun Context.startChatActivity(user: User) =
     Intent(this, ChatActivity::class.java).also {
+        it.putExtra(CONTACT_KEY, user)
         startActivity(it)
     }
