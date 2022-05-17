@@ -8,6 +8,9 @@
         <variable
             name="viewmodel"
             type="com.vcolofati.zapzap.ui.home.chat.ChatViewModel" />
+        <variable
+            name="ui"
+            type="com.vcolofati.zapzap.ui.home.chat.ChatActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -66,6 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
             android:translationZ="2dp"
+            android:onClick="@{ui::dispatchTakePictureIntent}"
             app:layout_constraintBottom_toBottomOf="@+id/editMessage"
             app:layout_constraintEnd_toStartOf="@+id/fabSend"
             app:layout_constraintTop_toTopOf="@+id/editMessage"

@@ -1,7 +1,11 @@
 package com.vcolofati.zapzap.ui.home.chat
 
+import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.AppBarConfiguration
@@ -12,7 +16,9 @@ import com.vcolofati.zapzap.R
 import com.vcolofati.zapzap.data.models.User
 import com.vcolofati.zapzap.databinding.ActivityChatBinding
 import com.vcolofati.zapzap.ui.configuration.CONTACT_KEY
+import com.vcolofati.zapzap.ui.configuration.REQUEST_IMAGE_CAPTURE
 import com.vcolofati.zapzap.ui.home.chat.adapter.MessagesAdapter
+import com.vcolofati.zapzap.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,6 +33,7 @@ class ChatActivity : AppCompatActivity() {
 
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.content.ui = this
         binding.content.viewmodel = viewmodel
 
         // Pegar intent
@@ -42,8 +49,9 @@ class ChatActivity : AppCompatActivity() {
         // inicializar Toolbar com dados do contato
         binding.userNameToolbar.text = user.name
         val uri = Uri.parse(user.imageUrl)
+        val glideInstance = Glide.with(this)
         if (user.imageUrl != null) {
-            Glide.with(this)
+            glideInstance
                 .load(uri)
                 .into(binding.circleImageToolbar)
         } else {
@@ -52,7 +60,7 @@ class ChatActivity : AppCompatActivity() {
         viewmodel.bindContactId(user.uid)
 
         // configuração adapter
-        val adapter = this.viewmodel.createAdapter()
+        val adapter = this.viewmodel.createAdapter(glideInstance)
 
         //configuração layoutmanager
         val layputManager: RecyclerView.LayoutManager = LinearLayoutManager(applicationContext)
@@ -77,5 +85,26 @@ class ChatActivity : AppCompatActivity() {
         this.viewmodel.messagesList.observe(this) { list ->
             adapter.bindList(list)
         }
+    }
+
+    fun dispatchTakePictureIntent(view: View) {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        if (takePictureIntent.resolveActivity(this.packageManager) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+        } else {
+            toast("Não foi possível abrir a camera")
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == RESULT_OK) {
+            when (requestCode) {
+                REQUEST_IMAGE_CAPTURE -> {
+                    val takenImage = data?.extras?.get("data") as Bitmap
+                    viewmodel.save(takenImage)
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }

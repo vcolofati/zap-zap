@@ -37,7 +37,7 @@ class SettingsViewModel @Inject constructor(
         _uri.value = Resource.loading()
         viewModelScope.launch(Dispatchers.IO) {
             if (user?.uid != null) {
-                val uri = storageRepository.saveImageToStorage(image, user?.uid!!)
+                val uri = storageRepository.saveProfileImageToStorage(image, user?.uid!!)
                 authRepository.updateUserProfile(uri)
                 withContext(Dispatchers.Main) {
                     userData.imageUrl = uri.toString()

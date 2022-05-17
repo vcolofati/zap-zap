@@ -1,17 +1,17 @@
 package com.vcolofati.zapzap.ui.home.chat.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.vcolofati.zapzap.R
+import com.bumptech.glide.RequestManager
 import com.vcolofati.zapzap.data.models.Message
 import com.vcolofati.zapzap.databinding.RecipientRecyclerItemBinding
 import com.vcolofati.zapzap.databinding.SenderRecyclerItemBinding
 import com.vcolofati.zapzap.ui.configuration.RECIPIENT_TYPE
 import com.vcolofati.zapzap.ui.configuration.SENDER_TYPE
 
-class MessagesAdapter(private val userId: String?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MessagesAdapter(private val userId: String?, private val glideInstance: RequestManager) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var list = emptyList<Message?>()
 
@@ -52,7 +52,13 @@ class MessagesAdapter(private val userId: String?) : RecyclerView.Adapter<Recycl
         )
 
         fun bind(position: Int) {
-            binding.chatMessage.text = list[position]?.content
+            val message = list[position]
+            if(message?.image != null) {
+                binding.messageAnexedImage.visibility = View.VISIBLE
+                binding.chatMessage.visibility = View.GONE
+                glideInstance.load(message.image).into(binding.messageAnexedImage)
+            }
+            else binding.chatMessage.text = message?.content
         }
     }
 
@@ -63,7 +69,13 @@ class MessagesAdapter(private val userId: String?) : RecyclerView.Adapter<Recycl
         )
 
         fun bind(position: Int) {
-            binding.chatMessage.text = list[position]?.content
+            val message = list[position]
+            if(message?.image != null) {
+                binding.messageAnexedImage.visibility = View.VISIBLE
+                binding.chatMessage.visibility = View.GONE
+                glideInstance.load(message.image).into(binding.messageAnexedImage)
+            }
+            else binding.chatMessage.text = message?.content
         }
     }
 }
