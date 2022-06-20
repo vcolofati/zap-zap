@@ -27,7 +27,7 @@ class FirebaseStorageSource @Inject constructor(firebaseStorage: FirebaseStorage
     suspend fun saveImageToStorage(image: Bitmap, uid: String) : Uri? {
         val imageName: String = UUID.randomUUID().toString()
         val baos = ByteArrayOutputStream()
-        image.compress(Bitmap.CompressFormat.PNG, 70, baos)
+        image.compress(Bitmap.CompressFormat.PNG, 25, baos)
         val imageData = baos.toByteArray()
         val imageRef = storageRef.child("imagens")
             .child("mensagens")

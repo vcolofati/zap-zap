@@ -7,14 +7,16 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
+import com.vcolofati.zapzap.data.models.Conversation
 import com.vcolofati.zapzap.data.models.Message
 import com.vcolofati.zapzap.data.models.User
 import javax.inject.Inject
 
-class FirebaseDatabaseSource @Inject constructor(private val firebaseDatabase: FirebaseDatabase) {
+class FirebaseDatabaseSource @Inject constructor(firebaseDatabase: FirebaseDatabase) {
 
     private val firebaseUserRef = firebaseDatabase.getReference("users")
     private val firebaseMessageRef = firebaseDatabase.getReference("messages")
+    private val firebaseConversationRef = firebaseDatabase.getReference("conversations")
     private lateinit var userListener: ValueEventListener
     private lateinit var messageListener: ValueEventListener
 
@@ -80,5 +82,12 @@ class FirebaseDatabaseSource @Inject constructor(private val firebaseDatabase: F
 
     fun detachMessageListener() {
         firebaseMessageRef.removeEventListener(messageListener)
+    }
+
+    fun saveConversation(conversation: Conversation) {
+        firebaseConversationRef.child(conversation.idSender)
+            .child(conversation.idReceiver)
+            .push()
+            .setValue(conversation)
     }
 }

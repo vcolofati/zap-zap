@@ -2,10 +2,13 @@ package com.vcolofati.zapzap.ui.home.chat
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.AppBarConfiguration
@@ -16,6 +19,7 @@ import com.vcolofati.zapzap.R
 import com.vcolofati.zapzap.data.models.User
 import com.vcolofati.zapzap.databinding.ActivityChatBinding
 import com.vcolofati.zapzap.ui.configuration.CONTACT_KEY
+import com.vcolofati.zapzap.ui.configuration.REQUEST_GALLERY
 import com.vcolofati.zapzap.ui.configuration.REQUEST_IMAGE_CAPTURE
 import com.vcolofati.zapzap.ui.home.chat.adapter.MessagesAdapter
 import com.vcolofati.zapzap.utils.toast
@@ -57,7 +61,7 @@ class ChatActivity : AppCompatActivity() {
         } else {
             binding.circleImageToolbar.setImageResource(R.drawable.default_image)
         }
-        viewmodel.bindContactId(user.uid)
+        viewmodel.bindContact(user)
 
         // configuração adapter
         val adapter = this.viewmodel.createAdapter(glideInstance)
@@ -87,24 +91,26 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
-    fun dispatchTakePictureIntent(view: View) {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        if (takePictureIntent.resolveActivity(this.packageManager) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-        } else {
-            toast("Não foi possível abrir a camera")
-        }
+    fun dispatchGalleryIntent(view: View) {
+        getResult.launch("image/*")
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode == RESULT_OK) {
-            when (requestCode) {
-                REQUEST_IMAGE_CAPTURE -> {
-                    val takenImage = data?.extras?.get("data") as Bitmap
-                    viewmodel.save(takenImage)
-                }
+    private val getResult =
+        registerForActivityResult(ActivityResultContracts.GetContent()) {
+                val image = getCapturedImage(it)
+                viewmodel.save(image)
+        }
+
+    private fun getCapturedImage(selectedPhotoUri: Uri): Bitmap {
+        return when {
+            Build.VERSION.SDK_INT < 28 -> MediaStore.Images.Media.getBitmap(
+                this.contentResolver,
+                selectedPhotoUri
+            )
+            else -> {
+                val source = ImageDecoder.createSource(this.contentResolver, selectedPhotoUri)
+                ImageDecoder.decodeBitmap(source)
             }
         }
-        super.onActivityResult(requestCode, resultCode, data)
     }
 }

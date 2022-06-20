@@ -9,7 +9,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.RequestManager
+import com.vcolofati.zapzap.data.models.Conversation
 import com.vcolofati.zapzap.data.models.Message
+import com.vcolofati.zapzap.data.models.User
 import com.vcolofati.zapzap.data.repositories.AuthRepository
 import com.vcolofati.zapzap.data.repositories.DatabaseRepository
 import com.vcolofati.zapzap.data.repositories.StorageRepository
@@ -27,7 +29,7 @@ class ChatViewModel @Inject constructor(
     private val storageRepository: StorageRepository
 ) : ViewModel() {
 
-    private lateinit var contactId: String
+    private lateinit var contact: User
     private val userId by lazy { authRepository.currentUser()?.uid }
     var textMessage = ObservableField<String?>()
 
@@ -40,14 +42,15 @@ class ChatViewModel @Inject constructor(
                 .show()
         } else {
             val message = Message(userId, textMessage.get(), null)
-            saveMessage(userId, contactId, message)
-            saveMessage(contactId, userId, message)
+            saveMessage(userId, contact.uid, message)
+            saveMessage(contact.uid, userId, message)
+            saveConversation(message)
         }
         textMessage.set("")
     }
 
     fun getMessages() {
-        this.databaseRepository.getMessages(userId!!, contactId, _messagesList)
+        this.databaseRepository.getMessages(userId!!, contact.uid!!, _messagesList)
     }
 
     private fun saveMessage(userId: String? = null, contactId: String? = null, message: Message) {
@@ -56,9 +59,9 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    fun bindContactId(uid: String?) {
-        if (uid != null) {
-            this.contactId = uid
+    fun bindContact(contact: User?) {
+        if (contact != null) {
+            this.contact = contact
         }
     }
 
@@ -74,10 +77,18 @@ class ChatViewModel @Inject constructor(
                 val uri = storageRepository.saveImageToStorage(takenImage, userId!!)
                 withContext(Dispatchers.Main) {
                     val message = Message(userId, "image.jpeg", uri.toString())
-                    saveMessage(userId, contactId, message)
-                    saveMessage(contactId, userId, message)
+                    // salvando mensagem para o remetente
+                    saveMessage(userId, contact.uid, message)
+                    // salvando mensagem para o destinatário
+                    saveMessage(contact.uid, userId, message)
+                    // salvando conversa
+                    saveConversation(message)
                 }
             }
         }
+    }
+
+    private fun saveConversation(message: Message) {
+        databaseRepository.saveConversation(Conversation(userId!!, contact.uid!!, message.content!!, contact))
     }
 }

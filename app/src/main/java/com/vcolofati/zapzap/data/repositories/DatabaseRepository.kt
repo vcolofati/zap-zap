@@ -2,6 +2,7 @@ package com.vcolofati.zapzap.data.repositories
 
 import androidx.lifecycle.MutableLiveData
 import com.vcolofati.zapzap.data.firebase.FirebaseDatabaseSource
+import com.vcolofati.zapzap.data.models.Conversation
 import com.vcolofati.zapzap.data.models.Message
 import com.vcolofati.zapzap.data.models.User
 import javax.inject.Inject
@@ -19,4 +20,5 @@ class DatabaseRepository @Inject constructor(private val firebaseDatabase: Fireb
     fun getMessages(userId: String, contactId: String, messageLiveData: MutableLiveData<List<Message?>>) =
         firebaseDatabase.getMessages(userId, contactId, messageLiveData)
     fun detachMessageListener() = firebaseDatabase.detachMessageListener()
+    fun saveConversation(conversation: Conversation) = firebaseDatabase.saveConversation(conversation)
 }
