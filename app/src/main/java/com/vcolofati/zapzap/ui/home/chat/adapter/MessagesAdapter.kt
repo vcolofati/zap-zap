@@ -34,10 +34,7 @@ class MessagesAdapter(private val userId: String?, private val glideInstance: Re
 
     override fun getItemViewType(position: Int): Int {
         val message = list[position]
-        if (this.userId == message?.userId) {
-            return SENDER_TYPE
-        }
-        return RECIPIENT_TYPE
+        return if (this.userId == message?.userId) SENDER_TYPE else RECIPIENT_TYPE
     }
 
     fun bindList(list: List<Message?>) {
