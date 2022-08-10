@@ -17,7 +17,7 @@ class DatabaseRepository @Inject constructor(private val firebaseDatabase: Fireb
     fun create(userId: String, contactId: String, message: Message) =
         firebaseDatabase.create(userId, contactId,message)
 
-    fun getMessages(userId: String, contactId: String, messageLiveData: MutableLiveData<List<Message?>>) =
+    fun getMessages(userId: String, contactId: String, messageLiveData: MutableLiveData<List<Message>>) =
         firebaseDatabase.getMessages(userId, contactId, messageLiveData)
     fun detachMessageListener() = firebaseDatabase.detachMessageListener()
     fun saveConversation(conversation: Conversation) = firebaseDatabase.saveConversation(conversation)

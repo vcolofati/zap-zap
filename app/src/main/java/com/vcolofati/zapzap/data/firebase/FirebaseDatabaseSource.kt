@@ -2,10 +2,7 @@ package com.vcolofati.zapzap.data.firebase
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
 import com.vcolofati.zapzap.data.models.Conversation
 import com.vcolofati.zapzap.data.models.Message
@@ -64,11 +61,11 @@ class FirebaseDatabaseSource @Inject constructor(firebaseDatabase: FirebaseDatab
             .setValue(message)
     }
 
-    fun getMessages(userId: String, contactId: String, messageLiveData: MutableLiveData<List<Message?>>) {
+    fun getMessages(userId: String, contactId: String, messageLiveData: MutableLiveData<List<Message>>) {
         messageListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val items = snapshot.children.map { dataSnapshot ->
-                    dataSnapshot.getValue<Message>()
+                    dataSnapshot.getValue<Message>()!!
                 }
                 messageLiveData.postValue(items)
             }

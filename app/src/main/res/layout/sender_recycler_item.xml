@@ -1,33 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="6dp"
-    android:orientation="vertical">
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="16dp"
+    tools:background="@drawable/bg_chat">
 
-    <FrameLayout
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_messagebubble"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:background="@drawable/bg_send_baloon">
+        app:cardBackgroundColor="@color/purple_500"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/messageAnexedImage"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:visibility="gone"
-            app:srcCompat="@drawable/default_image"
-            tools:visibility="visible" />
-
-        <TextView
-            android:id="@+id/chat_message"
+        <LinearLayout
+            android:id="@+id/layout_container"
             android:layout_width="wrap_content"
-            android:maxWidth="300dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            tools:text="Olá, tudo bem?" />
-    </FrameLayout>
-</LinearLayout>
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:maxWidth="260dp"
+                android:paddingLeft="12dp"
+                android:paddingTop="8dp"
+                android:paddingRight="12dp"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                tools:text="This is a Message" />
+
+            <ImageView
+                android:contentDescription="@string/image_sent"
+                android:id="@+id/image_anexed"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/default_image"
+                android:visibility="gone" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/text_timestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:textColor="@color/black"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="@+id/card_messagebubble"
+        app:layout_constraintEnd_toStartOf="@+id/card_messagebubble"
+        tools:text="10:00" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
