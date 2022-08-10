@@ -10,6 +10,10 @@ import com.vcolofati.zapzap.ui.configuration.CONTACT_KEY
 import com.vcolofati.zapzap.ui.configuration.SettingsActivity
 import com.vcolofati.zapzap.ui.home.HomeActivity
 import com.vcolofati.zapzap.ui.home.chat.ChatActivity
+import java.text.SimpleDateFormat
+import java.util.*
+
+val sdf = SimpleDateFormat("HH:mm")
 
 fun Context.toast(message: String) {
     makeText(this, message, LENGTH_SHORT).show()
@@ -36,4 +40,9 @@ fun Context.startChatActivity(user: User) =
     Intent(this, ChatActivity::class.java).also {
         it.putExtra(CONTACT_KEY, user)
         startActivity(it)
+    }
+
+fun Long.convertToDate(): String =
+    Date(this).run {
+        sdf.format(this)
     }

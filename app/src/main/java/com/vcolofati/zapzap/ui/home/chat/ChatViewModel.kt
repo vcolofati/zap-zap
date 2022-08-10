@@ -30,18 +30,18 @@ class ChatViewModel @Inject constructor(
 ) : ViewModel() {
 
     private lateinit var contact: User
-    private val userId by lazy { authRepository.currentUser()?.uid }
-    var textMessage = ObservableField<String?>()
+    private val userId by lazy { authRepository.currentUser()?.uid!! }
+    var textMessage = ObservableField<String>()
 
-    private val _messagesList: MutableLiveData<List<Message?>> = MutableLiveData()
-    val messagesList: LiveData<List<Message?>> = _messagesList
+    private val _messagesList: MutableLiveData<List<Message>> = MutableLiveData()
+    val messagesList: LiveData<List<Message>> = _messagesList
 
     fun sendMessage(view: View) {
         if (textMessage.get().isNullOrEmpty()) {
             Toast.makeText(view.context, "Digite uma mensagem para enviar", Toast.LENGTH_SHORT)
                 .show()
         } else {
-            val message = Message(userId, textMessage.get(), null)
+            val message = Message(userId, textMessage.get()!!, null)
             saveMessage(userId, contact.uid, message)
             saveMessage(contact.uid, userId, message)
             saveConversation(message)
@@ -50,7 +50,7 @@ class ChatViewModel @Inject constructor(
     }
 
     fun getMessages() {
-        this.databaseRepository.getMessages(userId!!, contact.uid!!, _messagesList)
+        this.databaseRepository.getMessages(userId, contact.uid!!, _messagesList)
     }
 
     private fun saveMessage(userId: String? = null, contactId: String? = null, message: Message) {
@@ -73,8 +73,7 @@ class ChatViewModel @Inject constructor(
 
     fun save(takenImage: Bitmap) {
         viewModelScope.launch(Dispatchers.IO) {
-            if (userId != null) {
-                val uri = storageRepository.saveImageToStorage(takenImage, userId!!)
+                val uri = storageRepository.saveImageToStorage(takenImage, userId)
                 withContext(Dispatchers.Main) {
                     val message = Message(userId, "image.jpeg", uri.toString())
                     // salvando mensagem para o remetente
@@ -84,11 +83,10 @@ class ChatViewModel @Inject constructor(
                     // salvando conversa
                     saveConversation(message)
                 }
-            }
         }
     }
 
     private fun saveConversation(message: Message) {
-        databaseRepository.saveConversation(Conversation(userId!!, contact.uid!!, message.content!!, contact))
+        databaseRepository.saveConversation(Conversation(userId, contact.uid!!, message.content!!, contact))
     }
 }

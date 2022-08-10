@@ -1,4 +1,4 @@
-package com.vcolofati.zapzap.ui.home.fragments.contact.adapter
+package com.vcolofati.zapzap.ui.home.fragments.conversation.adapter
 
 import android.net.Uri
 import android.view.LayoutInflater
@@ -9,14 +9,15 @@ import com.bumptech.glide.RequestManager
 import com.vcolofati.zapzap.R
 import com.vcolofati.zapzap.data.models.User
 import com.vcolofati.zapzap.databinding.ContactsRecyclerItemBinding
+import com.vcolofati.zapzap.databinding.ConversationFragmentBinding
 
-class ContactsAdapter(private val glide: RequestManager) : RecyclerView.Adapter<ContactsAdapter.ViewHolder>() {
+class ConversationAdapter(private val glide: RequestManager): RecyclerView.Adapter<ConversationAdapter.ViewHolder>() {
     private var list: List<User> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val listItem = LayoutInflater.from(parent.context)
-        val binding: ContactsRecyclerItemBinding =
-            DataBindingUtil.inflate(listItem,R.layout.contacts_recycler_item, parent, false)
+        val binding = DataBindingUtil.inflate<ContactsRecyclerItemBinding>(listItem, R.layout.contacts_recycler_item,
+        parent, false)
         return ViewHolder(binding)
     }
 
@@ -33,17 +34,13 @@ class ContactsAdapter(private val glide: RequestManager) : RecyclerView.Adapter<
         }
     }
 
-    override fun getItemCount(): Int {
-        return list.size
-    }
+    override fun getItemCount() = list.size
 
     fun bindList(list: List<User>) {
         this.list = list
-        notifyDataSetChanged()
     }
 
     fun getSelectedUser(position: Int): User = this.list[position]
 
-
-    class ViewHolder(val binding: ContactsRecyclerItemBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(val binding: ContactsRecyclerItemBinding): RecyclerView.ViewHolder(binding.root)
 }

@@ -22,12 +22,15 @@ import dagger.hilt.android.AndroidEntryPoint
 class ContactsFragment : Fragment() {
 
     private val viewModel: ContactsViewModel by viewModels()
+    private var _binding: ContactsFragmentBinding? = null
+
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding: ContactsFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.contacts_fragment, container, false)
+        _binding = DataBindingUtil.inflate(inflater, R.layout.contacts_fragment, container, false)
         val view = binding.root
         // Adapter
         val adapter = ContactsAdapter(Glide.with(requireActivity()))
@@ -66,6 +69,7 @@ class ContactsFragment : Fragment() {
 
     override fun onDestroyView() {
         this.viewModel.detachUserListener()
+        _binding = null
         super.onDestroyView()
     }
 }

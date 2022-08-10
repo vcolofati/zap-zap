@@ -10,15 +10,26 @@ import com.vcolofati.zapzap.databinding.RecipientRecyclerItemBinding
 import com.vcolofati.zapzap.databinding.SenderRecyclerItemBinding
 import com.vcolofati.zapzap.ui.configuration.RECIPIENT_TYPE
 import com.vcolofati.zapzap.ui.configuration.SENDER_TYPE
+import com.vcolofati.zapzap.utils.convertToDate
+import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class MessagesAdapter(private val userId: String?, private val glideInstance: RequestManager) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var list = emptyList<Message?>()
+    private var list = emptyList<Message>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
         return when (viewType) {
-            SENDER_TYPE -> SenderViewHolder(parent)
-            RECIPIENT_TYPE -> RecipientViewHolder(parent)
+            SENDER_TYPE -> {
+                val binding = SenderRecyclerItemBinding.inflate(layoutInflater, parent, false)
+                SenderViewHolder(binding)
+            }
+            RECIPIENT_TYPE -> {
+                val binding = RecipientRecyclerItemBinding.inflate(layoutInflater, parent, false)
+                RecipientViewHolder(binding)
+            }
             else -> throw IllegalArgumentException("Invalid viewtype")
         }
     }
@@ -34,45 +45,45 @@ class MessagesAdapter(private val userId: String?, private val glideInstance: Re
 
     override fun getItemViewType(position: Int): Int {
         val message = list[position]
-        return if (this.userId == message?.userId) SENDER_TYPE else RECIPIENT_TYPE
+        return if (this.userId == message.userId) SENDER_TYPE else RECIPIENT_TYPE
     }
 
-    fun bindList(list: List<Message?>) {
+    fun bindList(list: List<Message>) {
         this.list = list
         notifyDataSetChanged()
     }
 
     inner class SenderViewHolder(val binding: SenderRecyclerItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        constructor(parent: ViewGroup) : this(
-            SenderRecyclerItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        )
 
         fun bind(position: Int) {
             val message = list[position]
-            if(message?.image != null) {
-                binding.messageAnexedImage.visibility = View.VISIBLE
-                binding.chatMessage.visibility = View.GONE
-                glideInstance.load(message.image).into(binding.messageAnexedImage)
+            if(message.image != null) {
+                binding.imageAnexed.visibility = View.VISIBLE
+                binding.textMessage.visibility = View.GONE
+                glideInstance.load(message.image).into(binding.imageAnexed)
             }
-            else binding.chatMessage.text = message?.content
+            else {
+                binding.textTimestamp.text = message.timestampLong?.convertToDate()
+                binding.textMessage.text = message.content
+            }
         }
     }
 
     inner class RecipientViewHolder(val binding: RecipientRecyclerItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        constructor(parent: ViewGroup) : this(
-            RecipientRecyclerItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        )
 
         fun bind(position: Int) {
             val message = list[position]
-            if(message?.image != null) {
-                binding.messageAnexedImage.visibility = View.VISIBLE
-                binding.chatMessage.visibility = View.GONE
-                glideInstance.load(message.image).into(binding.messageAnexedImage)
+            if(message.image != null) {
+                binding.imageAnexedOther.visibility = View.VISIBLE
+                binding.textMessageOther.visibility = View.GONE
+                glideInstance.load(message.image).into(binding.imageAnexedOther)
             }
-            else binding.chatMessage.text = message?.content
+            else {
+                binding.textTimestampOther.text = message.timestampLong?.convertToDate()
+                binding.textMessageOther.text = message.content
+            }
         }
     }
 }
