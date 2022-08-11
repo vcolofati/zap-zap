@@ -36,7 +36,7 @@ class FirebaseDatabaseSource @Inject constructor(firebaseDatabase: FirebaseDatab
                                 dataSnapshot.key,
                                 dataSnapshot.child("name").value as String,
                                 dataSnapshot.child("email").value as String, null,
-                                dataSnapshot.child("imageUrl").value as String
+                                dataSnapshot.child("imageUrl").value as String?
                             )
                         )
                 }

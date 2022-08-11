@@ -84,7 +84,7 @@ class AuthViewModel @Inject constructor(
             }, {
                 val message = when(it) {
                     is FirebaseAuthWeakPasswordException -> "Digite uma senha mais forte"
-                    is FirebaseAuthInvalidCredentialsException -> "Blabla"
+                    is FirebaseAuthInvalidCredentialsException -> "Email inválido"
                     is FirebaseAuthUserCollisionException -> "Essa conta já foi cadastrada"
                     else -> "Erro ao cadastrar usuário: ${it.message}"
                 }

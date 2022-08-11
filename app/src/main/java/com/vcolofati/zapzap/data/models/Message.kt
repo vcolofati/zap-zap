@@ -12,7 +12,7 @@ class Message : Serializable {
     @get:Exclude var timestampLong: Long? = null
         private set
 
-    constructor(){}
+    constructor()
     constructor(userId: String?, content: String?, image: String?) {
         this.userId = userId
         this.content = content

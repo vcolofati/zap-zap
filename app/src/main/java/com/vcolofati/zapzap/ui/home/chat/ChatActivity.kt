@@ -52,9 +52,9 @@ class ChatActivity : AppCompatActivity() {
 
         // inicializar Toolbar com dados do contato
         binding.userNameToolbar.text = user.name
-        val uri = Uri.parse(user.imageUrl)
         val glideInstance = Glide.with(this)
         if (user.imageUrl != null) {
+            val uri = Uri.parse(user.imageUrl)
             glideInstance
                 .load(uri)
                 .into(binding.circleImageToolbar)
