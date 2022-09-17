@@ -13,7 +13,7 @@ import javax.inject.Inject
 class ContactsViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val databaseRepository: DatabaseRepository
-    ) : ViewModel() {
+) : ViewModel() {
 
     val user by lazy {
         authRepository.currentUser()

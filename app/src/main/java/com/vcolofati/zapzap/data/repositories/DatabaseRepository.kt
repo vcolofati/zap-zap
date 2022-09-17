@@ -10,15 +10,31 @@ import javax.inject.Inject
 class DatabaseRepository @Inject constructor(private val firebaseDatabase: FirebaseDatabaseSource) {
 
     fun create(user: User) = firebaseDatabase.create(user)
-    fun update(user: User) = firebaseDatabase.update(user)
-    fun getUsers(userLiveData: MutableLiveData<List<User>>, email: String) =
-            firebaseDatabase.getAll(userLiveData, email)
-    fun detachUserListener() = firebaseDatabase.detachUserListener()
-    fun create(userId: String, contactId: String, message: Message) =
-        firebaseDatabase.create(userId, contactId,message)
 
-    fun getMessages(userId: String, contactId: String, messageLiveData: MutableLiveData<List<Message>>) =
+    fun update(user: User) = firebaseDatabase.update(user)
+
+    fun getUsers(userLiveData: MutableLiveData<List<User>>, email: String) =
+        firebaseDatabase.getAll(userLiveData, email)
+
+    fun detachUserListener() = firebaseDatabase.detachUserListener()
+
+    fun create(userId: String, contactId: String, message: Message) =
+        firebaseDatabase.create(userId, contactId, message)
+
+    fun getMessages(
+        userId: String,
+        contactId: String,
+        messageLiveData: MutableLiveData<List<Message>>
+    ) =
         firebaseDatabase.getMessages(userId, contactId, messageLiveData)
+
     fun detachMessageListener() = firebaseDatabase.detachMessageListener()
-    fun saveConversation(conversation: Conversation) = firebaseDatabase.saveConversation(conversation)
+
+    fun saveConversation(conversation: Conversation) =
+        firebaseDatabase.saveConversation(conversation)
+
+    fun getConversations(userId: String, conversationLiveData: MutableLiveData<Conversation>) =
+        firebaseDatabase.getConversations(userId, conversationLiveData)
+
+    fun detachConversationListener() = firebaseDatabase.detachConversationListener()
 }

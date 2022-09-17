@@ -22,9 +22,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-        private val authRepository: AuthRepository,
-        private val databaseRepository: DatabaseRepository
-        ): ViewModel() {
+    private val authRepository: AuthRepository,
+    private val databaseRepository: DatabaseRepository
+) : ViewModel() {
 
     // variaveis da ui
     val userData = User()
@@ -56,7 +56,7 @@ class AuthViewModel @Inject constructor(
                 // postando sucesso para o observer
                 response.postValue(Resource.sucess())
             }, {
-                val message = when(it) {
+                val message = when (it) {
                     is FirebaseAuthInvalidUserException -> "Usuário não cadastrado"
                     is FirebaseAuthInvalidCredentialsException -> "E-mail e senha não correspondem a um usuário cadastrado"
                     else -> "Erro ao cadastrar usuário: ${it.message}"
@@ -82,7 +82,7 @@ class AuthViewModel @Inject constructor(
                 databaseRepository.create(userData)
                 authRepository.updateUserProfile(userData.name!!)
             }, {
-                val message = when(it) {
+                val message = when (it) {
                     is FirebaseAuthWeakPasswordException -> "Digite uma senha mais forte"
                     is FirebaseAuthInvalidCredentialsException -> "Email inválido"
                     is FirebaseAuthUserCollisionException -> "Essa conta já foi cadastrada"

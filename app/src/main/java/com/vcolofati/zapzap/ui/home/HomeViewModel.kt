@@ -6,13 +6,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val authRepository: AuthRepository): ViewModel() {
+class HomeViewModel @Inject constructor(private val authRepository: AuthRepository) : ViewModel() {
 
     val user by lazy {
         this.authRepository.currentUser()
     }
 
-    fun logout(){
+    fun logout() {
         this.authRepository.logout()
     }
 }

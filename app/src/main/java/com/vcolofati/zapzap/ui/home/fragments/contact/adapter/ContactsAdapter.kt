@@ -10,13 +10,14 @@ import com.vcolofati.zapzap.R
 import com.vcolofati.zapzap.data.models.User
 import com.vcolofati.zapzap.databinding.ContactsRecyclerItemBinding
 
-class ContactsAdapter(private val glide: RequestManager) : RecyclerView.Adapter<ContactsAdapter.ViewHolder>() {
+class ContactsAdapter(private val glide: RequestManager) :
+    RecyclerView.Adapter<ContactsAdapter.ViewHolder>() {
     private var list: List<User> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val listItem = LayoutInflater.from(parent.context)
         val binding: ContactsRecyclerItemBinding =
-            DataBindingUtil.inflate(listItem,R.layout.contacts_recycler_item, parent, false)
+            DataBindingUtil.inflate(listItem, R.layout.contacts_recycler_item, parent, false)
         return ViewHolder(binding)
     }
 
@@ -45,5 +46,6 @@ class ContactsAdapter(private val glide: RequestManager) : RecyclerView.Adapter<
     fun getSelectedUser(position: Int): User = this.list[position]
 
 
-    class ViewHolder(val binding: ContactsRecyclerItemBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(val binding: ContactsRecyclerItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

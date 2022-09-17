@@ -57,9 +57,10 @@ class SettingsActivity : AppCompatActivity() {
         if (uri != null) {
             Glide.with(this)
                 .load(uri)
-                .thumbnail(Glide.with(this)
-                    .load(actualUri)
-                    .fitCenter()
+                .thumbnail(
+                    Glide.with(this)
+                        .load(actualUri)
+                        .fitCenter()
                 )
                 .fitCenter()
                 .into(binding.profileImage)

@@ -42,7 +42,7 @@ class ContactsFragment : Fragment() {
         setObservers(adapter)
         this.viewModel.fetchUserList()
         binding.contactsRecycler.addOnItemTouchListener(object : RecyclerItemClickListener(activity,
-        binding.contactsRecycler,
+            binding.contactsRecycler,
             object : OnItemClickListener {
                 override fun onItemClick(view: View?, position: Int) {
                     activity?.startChatActivity(adapter.getSelectedUser(position))

@@ -49,7 +49,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.menu_search -> {}
             R.id.menu_settings -> startConfigurationActivity()
             R.id.menu_exit -> {

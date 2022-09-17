@@ -29,7 +29,7 @@ class SettingsViewModel @Inject constructor(
         authRepository.currentUser()
     }
 
-    var userData = User(user?.uid, user?.displayName, user?.email,null, user?.photoUrl.toString())
+    var userData = User(user?.uid, user?.displayName, user?.email, null, user?.photoUrl.toString())
 
     private val _uri: MutableLiveData<Resource<Uri?>> = MutableLiveData()
 

@@ -36,10 +36,10 @@ class FirebaseAuthSource @Inject constructor(private val firebaseAuth: FirebaseA
         val userChangeReq = UserProfileChangeRequest.Builder()
             .setPhotoUri(uri)
             .build()
-         currentUser()?.updateProfile(userChangeReq)?.await()
+        currentUser()?.updateProfile(userChangeReq)?.await()
     }
 
-    fun updateUserProfile(name:String) {
+    fun updateUserProfile(name: String) {
         val userChangeReq = UserProfileChangeRequest.Builder()
             .setDisplayName(name)
             .build()

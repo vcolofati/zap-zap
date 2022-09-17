@@ -11,11 +11,9 @@ import com.vcolofati.zapzap.databinding.SenderRecyclerItemBinding
 import com.vcolofati.zapzap.ui.configuration.RECIPIENT_TYPE
 import com.vcolofati.zapzap.ui.configuration.SENDER_TYPE
 import com.vcolofati.zapzap.utils.convertToDate
-import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
-import java.util.*
 
-class MessagesAdapter(private val userId: String?, private val glideInstance: RequestManager) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MessagesAdapter(private val userId: String?, private val glideInstance: RequestManager) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var list = emptyList<Message>()
 
@@ -58,12 +56,11 @@ class MessagesAdapter(private val userId: String?, private val glideInstance: Re
 
         fun bind(position: Int) {
             val message = list[position]
-            if(message.image != null) {
+            if (message.image != null) {
                 binding.imageAnexed.visibility = View.VISIBLE
                 binding.textMessage.visibility = View.GONE
                 glideInstance.load(message.image).into(binding.imageAnexed)
-            }
-            else {
+            } else {
                 binding.textTimestamp.text = message.timestampLong?.convertToDate()
                 binding.textMessage.text = message.content
             }
@@ -75,12 +72,11 @@ class MessagesAdapter(private val userId: String?, private val glideInstance: Re
 
         fun bind(position: Int) {
             val message = list[position]
-            if(message.image != null) {
+            if (message.image != null) {
                 binding.imageAnexedOther.visibility = View.VISIBLE
                 binding.textMessageOther.visibility = View.GONE
                 glideInstance.load(message.image).into(binding.imageAnexedOther)
-            }
-            else {
+            } else {
                 binding.textTimestampOther.text = message.timestampLong?.convertToDate()
                 binding.textMessageOther.text = message.content
             }

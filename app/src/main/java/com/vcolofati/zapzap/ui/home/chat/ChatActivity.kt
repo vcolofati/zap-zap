@@ -1,6 +1,5 @@
 package com.vcolofati.zapzap.ui.home.chat
 
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
@@ -11,7 +10,6 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -19,16 +17,12 @@ import com.vcolofati.zapzap.R
 import com.vcolofati.zapzap.data.models.User
 import com.vcolofati.zapzap.databinding.ActivityChatBinding
 import com.vcolofati.zapzap.ui.configuration.CONTACT_KEY
-import com.vcolofati.zapzap.ui.configuration.REQUEST_GALLERY
-import com.vcolofati.zapzap.ui.configuration.REQUEST_IMAGE_CAPTURE
 import com.vcolofati.zapzap.ui.home.chat.adapter.MessagesAdapter
-import com.vcolofati.zapzap.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ChatActivity : AppCompatActivity() {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityChatBinding
     private val viewmodel: ChatViewModel by viewModels()
 
@@ -54,10 +48,11 @@ class ChatActivity : AppCompatActivity() {
         binding.userNameToolbar.text = user.name
         val glideInstance = Glide.with(this)
         if (user.imageUrl != null) {
-            val uri = Uri.parse(user.imageUrl)
-            glideInstance
-                .load(uri)
-                .into(binding.circleImageToolbar)
+            Uri.parse(user.imageUrl).let {
+                glideInstance
+                    .load(it)
+                    .into(binding.circleImageToolbar)
+            }
         } else {
             binding.circleImageToolbar.setImageResource(R.drawable.default_image)
         }
@@ -97,8 +92,8 @@ class ChatActivity : AppCompatActivity() {
 
     private val getResult =
         registerForActivityResult(ActivityResultContracts.GetContent()) {
-                val image = getCapturedImage(it)
-                viewmodel.save(image)
+            val image = getCapturedImage(it)
+            viewmodel.save(image)
         }
 
     private fun getCapturedImage(selectedPhotoUri: Uri): Bitmap {

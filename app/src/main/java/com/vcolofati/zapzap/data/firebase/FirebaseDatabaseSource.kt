@@ -16,6 +16,7 @@ class FirebaseDatabaseSource @Inject constructor(firebaseDatabase: FirebaseDatab
     private val firebaseConversationRef = firebaseDatabase.getReference("conversations")
     private lateinit var userListener: ValueEventListener
     private lateinit var messageListener: ValueEventListener
+    private lateinit var conversationListener: ChildEventListener
 
     fun create(user: User) {
         user.uid?.let { firebaseUserRef.child(it).setValue(user) }
@@ -28,15 +29,15 @@ class FirebaseDatabaseSource @Inject constructor(firebaseDatabase: FirebaseDatab
     fun getAll(userLiveData: MutableLiveData<List<User>>, email: String) {
         userListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val items: MutableList<User> = arrayListOf()
+                val items = arrayListOf<User>()
                 snapshot.children.forEach { dataSnapshot ->
                     if (dataSnapshot.child("email").value as String != email)
                         items.add(
                             User(
-                                dataSnapshot.key,
-                                dataSnapshot.child("name").value as String,
-                                dataSnapshot.child("email").value as String, null,
-                                dataSnapshot.child("imageUrl").value as String?
+                                uid = dataSnapshot.key,
+                                name = dataSnapshot.child("name").value as String,
+                                email = dataSnapshot.child("email").value as String,
+                                imageUrl = dataSnapshot.child("imageUrl").value as String?
                             )
                         )
                 }
@@ -61,7 +62,11 @@ class FirebaseDatabaseSource @Inject constructor(firebaseDatabase: FirebaseDatab
             .setValue(message)
     }
 
-    fun getMessages(userId: String, contactId: String, messageLiveData: MutableLiveData<List<Message>>) {
+    fun getMessages(
+        userId: String,
+        contactId: String,
+        messageLiveData: MutableLiveData<List<Message>>
+    ) {
         messageListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val items = snapshot.children.map { dataSnapshot ->
@@ -82,9 +87,35 @@ class FirebaseDatabaseSource @Inject constructor(firebaseDatabase: FirebaseDatab
     }
 
     fun saveConversation(conversation: Conversation) {
-        firebaseConversationRef.child(conversation.idSender)
-            .child(conversation.idReceiver)
-            .push()
+        firebaseConversationRef.child(conversation.idSender!!)
+            .child(conversation.idReceiver!!)
             .setValue(conversation)
+    }
+
+    fun getConversations(
+        userId: String,
+        conversationLiveData: MutableLiveData<Conversation>
+    ) {
+        conversationListener = object : ChildEventListener {
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                val conversation = snapshot.getValue<Conversation>()!!
+                conversationLiveData.value = conversation
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {}
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.d("Error", error.toString())
+            }
+        }
+        firebaseConversationRef.child(userId).addChildEventListener(conversationListener)
+    }
+
+    fun detachConversationListener() {
+        firebaseConversationRef.removeEventListener(conversationListener)
     }
 }

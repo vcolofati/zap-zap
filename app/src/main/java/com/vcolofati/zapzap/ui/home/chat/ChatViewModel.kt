@@ -73,20 +73,27 @@ class ChatViewModel @Inject constructor(
 
     fun save(takenImage: Bitmap) {
         viewModelScope.launch(Dispatchers.IO) {
-                val uri = storageRepository.saveImageToStorage(takenImage, userId)
-                withContext(Dispatchers.Main) {
-                    val message = Message(userId, "image.jpeg", uri.toString())
-                    // salvando mensagem para o remetente
-                    saveMessage(userId, contact.uid, message)
-                    // salvando mensagem para o destinatário
-                    saveMessage(contact.uid, userId, message)
-                    // salvando conversa
-                    saveConversation(message)
-                }
+            val uri = storageRepository.saveImageToStorage(takenImage, userId)
+            withContext(Dispatchers.Main) {
+                val message = Message(userId, "image.jpeg", uri.toString())
+                // salvando mensagem para o remetente
+                saveMessage(userId, contact.uid, message)
+                // salvando mensagem para o destinatário
+                saveMessage(contact.uid, userId, message)
+                // salvando conversa
+                saveConversation(message)
+            }
         }
     }
 
     private fun saveConversation(message: Message) {
-        databaseRepository.saveConversation(Conversation(userId, contact.uid!!, message.content!!, contact))
+        databaseRepository.saveConversation(
+            Conversation(
+                userId,
+                contact.uid!!,
+                message.content!!,
+                contact
+            )
+        )
     }
 }

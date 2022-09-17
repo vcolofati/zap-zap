@@ -3,13 +3,13 @@ package com.vcolofati.zapzap.data.models
 import com.google.firebase.database.Exclude
 import com.google.firebase.database.ServerValue
 import java.io.Serializable
-import java.sql.Timestamp
 
 class Message : Serializable {
     var userId: String? = null
     var content: String? = null
     var image: String? = null
-    @get:Exclude var timestampLong: Long? = null
+    @get:Exclude
+    var timestampLong: Long? = null
         private set
 
     constructor()
